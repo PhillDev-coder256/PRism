@@ -50,46 +50,50 @@ export default function Home() {
     setResult(null);
     setError('');
 
+    const apiUrl = process.env.NEXT_PUBLIC_ANALYSIS_API;
+
+if (!apiUrl) {
+  setError('API URL is not configured.');
+  setIsLoading(false);
+  return;
+}
+
+try {
+  const response = await fetch(apiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url }),
+  });
+
+  if (!response.ok) {
+    let errMsg = 'Network response was not ok';
     try {
-      const response = await fetch(
-        'https://vinanceinvestments.com/philldevcoder/PRism/api/api.php',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url }),
-        }
-      );
-
-      if (!response.ok) {
-        // Try parsing error response safely
-        let errMsg = 'Network response was not ok';
-        try {
-          const errData = await response.json();
-          errMsg = errData.error || errMsg;
-        } catch {
-          // fallback
-        }
-        throw new Error(errMsg);
-      }
-
-      const data: PRResult = await response.json();
-
-      // Defensive: Ensure data fields exist & are strings or arrays
-      if (
-        typeof data.storyline !== 'string' ||
-        !Array.isArray(data.prompts) ||
-        typeof data.raw_diff !== 'string'
-      ) {
-        throw new Error('Invalid data structure from API');
-      }
-
-      setResult(data);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'An unknown error occurred.';
-      setError(`Failed to analyze PR: ${message}`);
-    } finally {
-      setIsLoading(false);
+      const errData = await response.json();
+      errMsg = errData.error || errMsg;
+    } catch {
+      // fallback
     }
+    throw new Error(errMsg);
+  }
+
+  const data: PRResult = await response.json();
+
+  if (
+    typeof data.storyline !== 'string' ||
+    !Array.isArray(data.prompts) ||
+    typeof data.raw_diff !== 'string'
+  ) {
+    throw new Error('Invalid data structure from API');
+  }
+
+  setResult(data);
+} catch (err) {
+  const message = err instanceof Error ? err.message : 'An unknown error occurred.';
+  setError(`Failed to analyze PR: ${message}`);
+} finally {
+  setIsLoading(false);
+}
+
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

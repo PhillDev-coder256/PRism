@@ -14,35 +14,45 @@ export default function FeedbackButton() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setStatus('sending');
-    try {
-      const response = await fetch('https://vinanceinvestments.com/philldevcoder/PRism/api/send-feedback.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ feedbackType, feedbackText }),
-      });
+    const feedbackApiUrl = process.env.NEXT_PUBLIC_FEEDBACK_API;
 
-      if (!response.ok) {
-        throw new Error('Server responded with an error.');
-      }
-      
-      const res = await response.json();
-      if (!res.success) {
-        throw new Error(res.error || 'The server could not send the email.');
-      }
-      
-      setStatus('success');
-      setFeedbackText('');
-      setFeedbackType('feature');
+if (!feedbackApiUrl) {
+  console.error('Feedback API URL is not configured.');
+  setStatus('error');
+  return;
+}
 
-      setTimeout(() => {
-        setIsModalOpen(false);
-        setTimeout(() => setStatus('idle'), 400); // Reset status after modal closes
-      }, 2000); // Close modal after 2 seconds
+try {
+  const response = await fetch(feedbackApiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ feedbackType, feedbackText }),
+  });
 
-    } catch (err) {
-      console.error(err);
-      setStatus('error');
-    }
+  if (!response.ok) {
+    throw new Error('Server responded with an error.');
+  }
+
+  const res = await response.json();
+
+  if (!res.success) {
+    throw new Error(res.error || 'The server could not send the email.');
+  }
+
+  setStatus('success');
+  setFeedbackText('');
+  setFeedbackType('feature');
+
+  setTimeout(() => {
+    setIsModalOpen(false);
+    setTimeout(() => setStatus('idle'), 400); // Reset status after modal closes
+  }, 2000); // Close modal after 2 seconds
+
+} catch (err) {
+  console.error(err);
+  setStatus('error');
+}
+
   };
 
   return (
