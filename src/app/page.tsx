@@ -31,7 +31,7 @@ const examplePRs = [
   {
     name: 'Next.js by Vercel (JavaScript)',
     description:
-      'This PR removes old code. Context Keeper correctly identifies the removed functions.',
+      'This PR removes old code. g!tPRism correctly identifies the removed functions.',
     url: 'https://github.com/vercel/next.js/pull/46211',
     lang: 'JS',
   },
@@ -104,7 +104,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>Context Keeper</h1>
+      <h1 className={styles.title}>g!tPRism</h1>
       <p className={styles.description}>
         <ReactMarkdown>
           Go beyond the `diff`. Understand the *story* behind code changes.
