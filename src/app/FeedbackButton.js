@@ -15,7 +15,7 @@ export default function FeedbackButton() {
     event.preventDefault();
     setStatus('sending');
     try {
-      const response = await fetch('/api/send-feedback.php', {
+      const response = await fetch('https://vinanceinvestments.com/philldevcoder/PRism/api/send-feedback.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ feedbackType, feedbackText }),
