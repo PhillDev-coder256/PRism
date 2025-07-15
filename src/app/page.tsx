@@ -125,6 +125,7 @@ try {
           className={styles.input}
           disabled={isLoading}
         />
+        
         <button type="submit" disabled={isLoading || !prUrl.trim()} className={styles.button}>
           {isLoading ? <span className={styles.loadingText}>Analyzing...</span> : 'Analyze PR'}
         </button>

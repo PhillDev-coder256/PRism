@@ -73,6 +73,7 @@
 /* -- 4. The Form: Input & Button Styling -- */
 .form {
   display: flex;
+  flex-direction: column;
   width: 100%;
   /* max-width: 600px; */
   margin-top: 1rem;
@@ -112,6 +113,7 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  /* margin-top: 10px; */
 }
 
 .button:hover:not(:disabled) {
