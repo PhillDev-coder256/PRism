@@ -65,7 +65,7 @@
   font-size: 1.25rem;
   color: var(--color-text-muted);
   margin-top: 0.5rem;
-  max-width: 600px;
+  /* max-width: 600px; */
   text-align: center;
   animation: fadeInUp 1s 0.2s ease-out backwards;
 }
@@ -74,7 +74,7 @@
 .form {
   display: flex;
   width: 100%;
-  max-width: 600px;
+  /* max-width: 600px; */
   margin-top: 1rem;
   gap: 1rem;
   animation: fadeInUp 1s 0.4s ease-out backwards;
@@ -144,7 +144,7 @@
 
 .result {
   width: 100%;
-  max-width: 800px;
+  /* max-width: 800px; */
   margin-top: 3rem;
   padding: 2.5rem;
   background: var(--card-background);
@@ -240,7 +240,7 @@
 }
 
 .footerContent {
-  max-width: 800px;
+  /* max-width: 800px; */
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -271,7 +271,7 @@
 
 .exampleContainer {
   width: 100%;
-  max-width: 900px;
+  /* max-width: 900px; */
   margin-top: 4rem;
   animation: fadeInUp 1s 0.6s ease-out backwards;
 }
