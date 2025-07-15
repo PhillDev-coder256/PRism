@@ -59,7 +59,7 @@ export default function FeedbackButton() {
               {status === 'sending' && <div className={styles.spinner}></div>}
               {status === 'success' && <div className={styles.successIcon}><CheckIcon /></div>}
               <h3>{status === 'sending' ? 'Sending...' : 'Thank You!'}</h3>
-              <p>{status === 'success' && 'Your feedback has been sent.'}</p>
+              <p>{status === 'success' && 'Your feedback has been sent. We\'ll see how it goes!'}</p>
             </div>
           )}
 
