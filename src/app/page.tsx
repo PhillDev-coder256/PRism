@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styles from './page.module.css';
-import FeedbackButton from './FeedbackButton'; // Make sure this component exists
+import FeedbackButton from './FeedbackButton'; // Make sure this exists and works
 
 // --- Types ---
 interface PRResult {
@@ -51,31 +51,50 @@ export default function Home() {
     setError('');
 
     try {
-      const response = await fetch('https://vinanceinvestments.com/philldevcoder/PRism/api/api.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
-      });
+      const response = await fetch(
+        'https://vinanceinvestments.com/philldevcoder/PRism/api/api.php',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url }),
+        }
+      );
 
       if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error || 'Network response was not ok');
+        // Try parsing error response safely
+        let errMsg = 'Network response was not ok';
+        try {
+          const errData = await response.json();
+          errMsg = errData.error || errMsg;
+        } catch {
+          // fallback
+        }
+        throw new Error(errMsg);
       }
 
       const data: PRResult = await response.json();
+
+      // Defensive: Ensure data fields exist & are strings or arrays
+      if (
+        typeof data.storyline !== 'string' ||
+        !Array.isArray(data.prompts) ||
+        typeof data.raw_diff !== 'string'
+      ) {
+        throw new Error('Invalid data structure from API');
+      }
+
       setResult(data);
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'An unknown error occurred.';
+      const message = err instanceof Error ? err.message : 'An unknown error occurred.';
       setError(`Failed to analyze PR: ${message}`);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleAnalysis(prUrl);
+    handleAnalysis(prUrl.trim());
   };
 
   const handleExampleClick = (url: string) => {
@@ -100,15 +119,15 @@ export default function Home() {
           placeholder="https://github.com/owner/repo/pull/123"
           required
           className={styles.input}
+          disabled={isLoading}
         />
-        <button type="submit" disabled={isLoading && !result} className={styles.button}>
+        <button type="submit" disabled={isLoading || !prUrl.trim()} className={styles.button}>
           {isLoading ? <span className={styles.loadingText}>Analyzing...</span> : 'Analyze PR'}
         </button>
       </form>
 
-      {/* --- Example Showcase --- */}
       {!result && !isLoading && (
-        <div className={styles.exampleContainer}>
+        <section className={styles.exampleContainer}>
           <h2 className={styles.exampleTitle}>Or, try one of these...</h2>
           <div className={styles.exampleGrid}>
             {examplePRs.map((pr) => (
@@ -116,6 +135,11 @@ export default function Home() {
                 key={pr.name}
                 className={styles.exampleCard}
                 onClick={() => handleExampleClick(pr.url)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') handleExampleClick(pr.url);
+                }}
               >
                 <div
                   className={`${styles.langBadge} ${
@@ -130,23 +154,22 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {error && <p className={styles.error}>{error}</p>}
 
-      {/* --- Result Viewer --- */}
       {result && (
-        <div className={styles.result}>
+        <section className={styles.result}>
           <h2>Analysis Complete</h2>
 
           <h3>🔗 Pull Request URL</h3>
           <p>
             <a
-              style={{ color: 'blue', textDecoration: 'underline' }}
               href={prUrl}
               target="_blank"
               rel="noopener noreferrer"
+              className={styles.link}
             >
               {prUrl}
             </a>
@@ -160,8 +183,8 @@ export default function Home() {
           <h3>📝 Documentation Prompts</h3>
           {result.prompts.length > 0 ? (
             <ul className={styles.prompts}>
-              {result.prompts.map((prompt: string, index: number) => (
-                <li key={index} className={styles.promptItem}>
+              {result.prompts.map((prompt, i) => (
+                <li key={i} className={styles.promptItem}>
                   <ReactMarkdown>{prompt}</ReactMarkdown>
                 </li>
               ))}
@@ -174,7 +197,7 @@ export default function Home() {
           <pre className={styles.diff}>
             <code>{result.raw_diff}</code>
           </pre>
-        </div>
+        </section>
       )}
 
       <FeedbackButton />
