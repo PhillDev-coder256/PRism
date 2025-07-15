@@ -15,7 +15,7 @@ export default function FeedbackButton() {
     event.preventDefault();
     setStatus('sending');
     try {
-      const response = await fetch('http://localhost:8000/send-feedback.php', {
+      const response = await fetch('/back/send-feedback.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ feedbackType, feedbackText }),
