@@ -1,0 +1,213 @@
+/* FeedbackButton.module.css */
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* The Floating Action Button (FAB) */
+.floatingButton {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(0, 175, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+.floatingButton:hover {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 175, 255, 0.6);
+}
+.floatingButton svg {
+    width: 32px;
+    height: 32px;
+}
+
+/* Modal Overlay and Container */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(10, 14, 18, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    background: var(--color-background);
+    background-image: radial-gradient(circle at top right, rgba(0, 175, 255, 0.05), transparent 40%);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+.overlay.open .modal {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Modal Content & Form Styling */
+.closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.2s;
+}
+.closeButton:hover {
+    color: var(--color-text);
+}
+.closeButton svg {
+    width: 24px;
+    height: 24px;
+}
+.modal h2 {
+    text-align: center;
+    color: var(--color-accent);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+.modal p {
+    text-align: center;
+    color: var(--color-text-muted);
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.feedbackTypes {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+.feedbackTypes label {
+    display: flex;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.feedbackTypes input {
+    display: none; /* Hide the actual radio button */
+}
+.feedbackTypes input:checked + span {
+    color: var(--color-accent);
+    font-weight: 600;
+}
+.feedbackTypes label:hover {
+    background: var(--card-background);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.textarea {
+    min-height: 120px;
+    font-size: 1rem;
+    background: #1D242C;
+    color: var(--color-text);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    resize: vertical;
+}
+.textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 15px var(--color-accent-glow);
+}
+.submitButton {
+    padding: 1rem;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    background: var(--color-accent);
+    color: var(--color-background);
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+.submitButton:hover:not(:disabled) {
+    transform: scale(1.02);
+}
+.submitButton:disabled {
+    background-color: #33404D;
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+}
+
+/* State management feedback (loading, success) */
+.stateOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-background);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border-radius: 16px;
+    animation: fadeIn 0.3s;
+}
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--color-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+.successIcon {
+    width: 50px;
+    height: 50px;
+    color: var(--color-success);
+}
+.stateOverlay h3 {
+    color: var(--color-text);
+    margin: 0;
+}
+.errorMessage {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: rgba(255, 71, 87, 0.1);
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+    border-radius: 8px;
+    text-align: center;
+}

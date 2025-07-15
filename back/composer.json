@@ -1,0 +1,17 @@
+{
+    "name": "phill/back",
+    "autoload": {
+        "psr-4": {
+            "Phill\\Back\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "philldevcoder",
+            "email": "phillipphilcourts540@gmail.com"
+        }
+    ],
+    "require": {
+        "nikic/php-parser": "^5.5"
+    }
+}

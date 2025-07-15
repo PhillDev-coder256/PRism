@@ -1,0 +1,351 @@
+/*
+ * File: page.module.css
+ * Theme: "Neon Noir" for Context Keeper
+ * Description: A world-class, developer-focused design system. Features include CSS variables for
+ * theming, subtle animations, a frosted glass effect, and a modern, clean layout.
+*/
+
+/* -- 1. Design System & Theming Variables -- */
+/* We define all our colors and key styles here for easy customization. */
+.main {
+  --color-background: #101418; /* A deep, dark blue-charcoal */
+  --color-text: #EAEAEA;
+  --color-text-muted: #8899A6;
+  --color-accent: #00AFFF; /* A vibrant, electric blue */
+  --color-accent-glow: rgba(0, 175, 255, 0.4);
+  --color-error: #FF4757;
+  --color-success: #2ED573;
+  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-family-mono: 'SF Mono', 'Fira Code', 'Menlo', 'Monaco', monospace;
+  --card-background: rgba(29, 36, 44, 0.7); /* Semi-transparent for the glass effect */
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-radius: 12px;
+}
+
+/* -- 2. Keyframe Animations for a Dynamic Feel -- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* -- 3. Main Layout & Typography -- */
+.main {
+  background-color: var(--color-background);
+  background-image: radial-gradient(circle at 15% 15%, rgba(0, 175, 255, 0.1), transparent 30%);
+  min-height: 100vh;
+  padding: 4rem;
+  font-family: var(--font-family-sans);
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -2px;
+  margin: 0;
+  animation: fadeIn 1s ease-out;
+}
+
+.description {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+  max-width: 500px;
+  text-align: center;
+  animation: fadeInUp 1s 0.2s ease-out backwards;
+}
+
+/* -- 4. The Form: Input & Button Styling -- */
+.form {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 3rem;
+  gap: 1rem;
+  animation: fadeInUp 1s 0.4s ease-out backwards;
+}
+
+.input {
+  flex-grow: 1;
+  font-size: 1rem;
+  background: #1D242C;
+  color: var(--color-text);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 15px var(--color-accent-glow);
+}
+
+.button {
+  font-size: 1rem;
+  font-weight: 600;
+  background: var(--color-accent);
+  color: var(--color-background);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--color-accent-glow);
+}
+
+.button:disabled {
+  background-color: #33404D;
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.loadingText {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* -- 5. Status & Result Display -- */
+.error {
+  margin-top: 1rem;
+  color: var(--color-error);
+  font-weight: 500;
+  animation: fadeIn 0.5s;
+}
+
+.result {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 3rem;
+  padding: 2.5rem;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 16px; /* Slightly larger radius for the main card */
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.result h2 {
+  font-size: 1.5rem;
+  margin-top: 0;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  color: var(--color-accent);
+}
+
+.result h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  color: var(--color-text);
+}
+
+.result p, .result li {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.result ul {
+  padding-left: 20px;
+}
+
+/* -- 6. Code & Diff Block -- */
+/* Designed for maximum readability, like a code editor. */
+.diff {
+  background: #0E1012; /* Even darker for contrast */
+  font-family: var(--font-family-mono);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  margin-top: 1rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  border: 1px solid var(--border-color);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.diff code {
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* Add these new styles to the end of app/page.module.css */
+
+.storyline {
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+/* react-markdown wraps content in p tags, so we style those */
+.storyline p {
+  margin: 0;
+  white-space: pre-wrap; /* This makes the \n newlines work! */
+}
+
+/* Style the bold (**) text to make it stand out */
+.storyline strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Style the back-ticked (`) text as code */
+.storyline code {
+  font-family: var(--font-family-mono);
+  background-color: rgba(0,0,0,0.4);
+  padding: 0.2em 0.4em;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  color: #88ddff; /* Light blue for code text */
+}
+
+.prompts li {
+    margin-bottom: 0.5rem; /* Add some space between prompts */
+}
+
+.footer {
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.footerContent {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.footerText {
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.heart {
+  color: #e53e3e;
+  font-weight: bold;
+  font-size: 1.1em;
+  vertical-align: middle;
+}
+
+.link {
+  color: #2b6cb0;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #1a365d;
+  text-decoration: underline;
+}
+
+.exampleContainer {
+  width: 100%;
+  max-width: 900px;
+  margin-top: 4rem;
+  animation: fadeInUp 1s 0.6s ease-out backwards;
+}
+
+.exampleTitle {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.exampleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.exampleCard {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.exampleCard:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: var(--color-accent);
+  box-shadow: 0 8px 30px var(--color-accent-glow);
+}
+
+.exampleCard h3 {
+  margin: 1rem 0 0.5rem 0;
+  color: var(--color-text);
+  font-size: 1.1rem;
+}
+
+.exampleCard p {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.tryMe {
+  display: inline-block;
+  margin-top: 1rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.langBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 6px;
+  font-family: var(--font-family-mono);
+}
+
+.php {
+  background-color: #7A86B8;
+  color: #101418;
+}
+
+.js {
+  background-color: #F7DF1E;
+  color: #101418;
+}
+
+
+
+
