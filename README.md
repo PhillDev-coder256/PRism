@@ -13,10 +13,7 @@ g!tPRism is an intelligent code review assistant that transforms confusing pull 
 
 ### ✨ The "Wow" Moment: Live App Screenshot
 
-*(**Action Needed:** Take a beautiful screenshot of your app showing the result of an analysis and replace the placeholder link below!)*
-
-![g!tPRism Screenshot](https://i.imgur.com/u5q4ZIS.png) 
-*A live screenshot showing the Storyline for a complex pull request.*
+![g!tPRism Screenshot](/src/app/demo.png) 
 
 ---
 
@@ -79,8 +76,8 @@ Want to run g!tPRism on your own machine? Here's how:
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/philldev-coder256/g-tPRism.git 
-    cd g-tPRism
+    git clone https://github.com/philldev-coder256/PRism.git 
+    cd PRism
     ```
 
 2.  **Install frontend dependencies:**
@@ -114,7 +111,7 @@ Want to run g!tPRism on your own machine? Here's how:
 
 ## 🤝 How to Contribute
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/philldev-coder256/g-tPRism/issues) for open tasks or submit a new one.
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/philldev-coder256/PRism/issues) for open tasks or submit a new one.
 
 ---
 
