@@ -51,7 +51,7 @@ export default function Home() {
     setError('');
 
     try {
-      const response = await fetch('/back/api.php', {
+      const response = await fetch('/api/api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url }),
